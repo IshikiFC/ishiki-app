@@ -1,9 +1,10 @@
 import React, {useCallback, useEffect, useRef, useState} from "react";
 import {Field} from "./components/Field";
 import update from "immutability-helper";
-import {Stats} from "./components/Stats";
+import {AgentMonitor} from "./components/AgentMonitor";
 import {ControlPanel} from "./components/ControlPanel";
 import {fetchMatch} from "./utils/ApiUtils";
+import styles from "./Dashboard.module.css";
 
 export const Dashboard = () => {
     const [step, setStep] = useState(0);
@@ -11,6 +12,7 @@ export const Dashboard = () => {
     const [match, setMatch] = useState(null);
     const [players, setPlayers] = useState(null);
     const [ball, setBall] = useState(null);
+    const [probabilities, setProbabilitiess] = useState(null);
     const [initialized, setInitialized] = useState(false);
     const intervalRef = useRef(null);
 
@@ -28,12 +30,13 @@ export const Dashboard = () => {
             }
             setPlayers(match.getPlayers(step));
             setBall(match.getBall(step));
+            setProbabilitiess(match.getProbabilities(step));
         }
 
         if (isActive) {
             const intervalId = setInterval(() => {
                 setStep(s => s + 1);
-            }, 10);
+            }, 100);
             intervalRef.current = intervalId;
             return () => clearInterval(intervalRef.current);
         }
@@ -57,20 +60,30 @@ export const Dashboard = () => {
 
 
     if (!initialized) {
-        return <p>loading</p>;
+        return <div>Loading Match</div>;
     } else {
         return (
-            <div>
-                <ControlPanel
-                    handleClickPlay={handleClickPlay}
-                    isActive={isActive}
-                    step={step}
-                    stepMax={match.getNumSteps()}
-                    handleChangeStep={setStep}
+            <div className={styles.dashboard}>
+                <div>
+                    <ControlPanel
+                        handleClickPlay={handleClickPlay}
+                        isActive={isActive}
+                        step={step}
+                        stepMax={match.getNumSteps()}
+                        handleChangeStep={setStep}
+                    />
+                    <Field
+                        players={players}
+                        ball={ball}
+                        movePlayer={movePlayer}
+                        moveBall={moveBall}
+                    />
+                </div>
+                <AgentMonitor
+                    players={players}
+                    ball={ball}
+                    probabilities={probabilities}
                 />
-                <Field players={players} ball={ball} movePlayer={movePlayer} moveBall={moveBall}/>
-                <Stats players={players} ball={ball}/>
-                <pre>{JSON.stringify(match, null, 2)}</pre>
             </div>
         );
     }

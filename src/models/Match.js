@@ -9,6 +9,7 @@ export class Match {
 
     convertFrame = (api_frame) => {
         const ball = this.convertBall(api_frame['ball']);
+
         const players = {};
         api_frame['left_team'].forEach((api_player, i) => {
             const playerId = `left${i}`
@@ -18,9 +19,11 @@ export class Match {
             const playerId = `right${i}`
             players[playerId] = this.convertPlayer(api_player, 'right')
         });
+
         return {
             ball: ball,
-            players: players
+            players: players,
+            probabilities: api_frame['action']
         };
     }
 
@@ -45,6 +48,10 @@ export class Match {
 
     getBall = (step) => {
         return this.match[step]['ball']
+    }
+
+    getProbabilities = (step) => {
+        return this.match[step]['probabilities']
     }
 
     getNumSteps = () => {

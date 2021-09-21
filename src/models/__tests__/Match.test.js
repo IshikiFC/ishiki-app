@@ -6,7 +6,11 @@ it('match test', () => {
     const match = new Match([{
         'ball': [1, 2, 3],
         'left_team': [[1, 2], [3, 4]],
-        'right_team': [[5, 6]]
+        'right_team': [[5, 6]],
+        'action': {
+            dribble: 0.2,
+            short_pass: 0.8
+        }
     }])
 
     expect(match.getNumSteps()).toEqual(1);
@@ -20,5 +24,10 @@ it('match test', () => {
         left0: {x: 1 / API_X_SCALE, y: 2 / API_Y_SCALE, team: 'left'},
         left1: {x: 3 / API_X_SCALE, y: 4 / API_Y_SCALE, team: 'left'},
         right0: {x: 5 / API_X_SCALE, y: 6 / API_Y_SCALE, team: 'right'}
+    })
+
+    expect(match.getProbabilities(0)).toEqual({
+        dribble: 0.2,
+        short_pass: 0.8
     })
 })
