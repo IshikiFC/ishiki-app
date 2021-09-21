@@ -1,0 +1,17 @@
+.panel {
+    margin: 10px;
+}
+
+.controller {
+    width: 500px;
+    display: flex;
+}
+
+.button {
+    margin: 10px;
+}
+
+.slider {
+    width: 400px;
+    margin: auto 10px;
+}

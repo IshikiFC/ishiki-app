@@ -1,0 +1,7 @@
+.player {
+    width: 15px;
+    height: 15px;
+    border-radius: 100%;
+    position: absolute;
+    cursor: move;
+}
