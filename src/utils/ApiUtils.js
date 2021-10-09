@@ -4,7 +4,7 @@ import {API_X_SCALE, API_Y_SCALE} from "./Constants";
 
 
 export const fetchMatch = (setMatch, setInitialized) => {
-    fetch('http://localhost:5000/match?s=300')
+    fetch('http://localhost:5000/match?name=tamakeri_hard')
         .then(response => response.json())
         .then(json => new Match(json))
         .then(match => setMatch(match))

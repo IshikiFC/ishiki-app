@@ -8,22 +8,26 @@ export class Match {
     }
 
     convertFrame = (api_frame) => {
-        const ball = this.convertBall(api_frame['ball']);
+        const observation = api_frame['observation']
+        const evaluation = api_frame['evaluation']
 
+        const ball = this.convertBall(observation['ball']);
         const players = {};
-        api_frame['left_team'].forEach((api_player, i) => {
+        observation['left_team'].forEach((api_player, i) => {
             const playerId = `left${i}`
             players[playerId] = this.convertPlayer(api_player, 'left')
         });
-        api_frame['right_team'].forEach((api_player, i) => {
+        observation['right_team'].forEach((api_player, i) => {
             const playerId = `right${i}`
             players[playerId] = this.convertPlayer(api_player, 'right')
         });
+        const action = observation['action']
 
         return {
             ball: ball,
             players: players,
-            probabilities: api_frame['action']
+            action: action,
+            evaluation: evaluation
         };
     }
 
@@ -50,8 +54,12 @@ export class Match {
         return this.match[step]['ball']
     }
 
-    getProbabilities = (step) => {
-        return this.match[step]['probabilities']
+    getAction = (step) => {
+        return this.match[step]['action']
+    }
+
+    getEvaluation = (step) => {
+        return this.match[step]['evaluation']
     }
 
     getNumSteps = () => {

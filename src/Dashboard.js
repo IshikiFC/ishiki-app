@@ -12,7 +12,7 @@ export const Dashboard = () => {
     const [match, setMatch] = useState(null);
     const [players, setPlayers] = useState(null);
     const [ball, setBall] = useState(null);
-    const [probabilities, setProbabilitiess] = useState(null);
+    const [evaluation, setEvaluation] = useState(null);
     const [initialized, setInitialized] = useState(false);
     const intervalRef = useRef(null);
 
@@ -22,21 +22,20 @@ export const Dashboard = () => {
 
     useEffect(() => {
         if (match !== null) {
-            if (step >= match.getNumSteps()) {
+            if (step >= match.getNumSteps() - 1) {
                 setIsActive(false);
-                setStep(0);
                 clearInterval(intervalRef.current);
                 return;
             }
             setPlayers(match.getPlayers(step));
             setBall(match.getBall(step));
-            setProbabilitiess(match.getProbabilities(step));
+            setEvaluation(match.getEvaluation(step));
         }
 
         if (isActive) {
             const intervalId = setInterval(() => {
                 setStep(s => s + 1);
-            }, 100);
+            }, 10);
             intervalRef.current = intervalId;
             return () => clearInterval(intervalRef.current);
         }
@@ -69,7 +68,7 @@ export const Dashboard = () => {
                         handleClickPlay={handleClickPlay}
                         isActive={isActive}
                         step={step}
-                        stepMax={match.getNumSteps()}
+                        stepMax={match.getNumSteps() - 1}
                         handleChangeStep={setStep}
                     />
                     <Field
@@ -80,9 +79,8 @@ export const Dashboard = () => {
                     />
                 </div>
                 <AgentMonitor
-                    players={players}
-                    ball={ball}
-                    probabilities={probabilities}
+                    evaluation={evaluation}
+                    action={match.getAction(step)}
                 />
             </div>
         );
