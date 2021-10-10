@@ -9,3 +9,4 @@ export const FIELD_HEIGHT = 350
 export const API_X_SCALE = 1
 export const API_Y_SCALE = -0.42
 export const NUM_ACTIONS = 19
+export const FPS = 10

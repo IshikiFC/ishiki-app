@@ -5,6 +5,7 @@ import {AgentMonitor} from "./components/AgentMonitor";
 import {ControlPanel} from "./components/ControlPanel";
 import {fetchMatch} from "./utils/ApiUtils";
 import styles from "./Dashboard.module.css";
+import {FPS} from "./utils/Constants";
 
 export const Dashboard = () => {
     const [step, setStep] = useState(0);
@@ -64,6 +65,15 @@ export const Dashboard = () => {
         return (
             <div className={styles.dashboard}>
                 <div>
+                    <video
+                        controls
+                        autoPlay
+                        onTimeUpdate={event => {
+                            setStep(Math.round(event.target.currentTime * FPS));
+                        }}
+                    >
+                        <source src={"http://localhost:5000/static/tamakeri_hard.mp4"} type={"video/mp4"}/>
+                    </video>
                     <ControlPanel
                         handleClickPlay={handleClickPlay}
                         isActive={isActive}
