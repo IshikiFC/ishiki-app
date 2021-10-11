@@ -89,8 +89,8 @@ export const Dashboard = () => {
                     />
                 </div>
                 <AgentMonitor
-                    evaluation={evaluation}
-                    action={match.getAction(step)}
+                    match={match}
+                    step={step}
                 />
             </div>
         );

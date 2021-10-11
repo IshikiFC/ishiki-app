@@ -62,6 +62,16 @@ export class Match {
         return this.match[step]['evaluation']
     }
 
+    getValueHistory = (step, windowSize) => {
+        const matchHistory = this.match.slice(Math.max(0, step - windowSize + 1), step + 1);
+        const prefill = new Array(Math.max(0, windowSize - step - 1)).fill(0);
+        const agents = Object.keys(matchHistory[0]['evaluation']);
+        return agents.reduce((vh, agent) => {
+            vh[agent] = prefill.concat(matchHistory.map(f => f['evaluation'][agent]['value']));
+            return vh;
+        }, {})
+    }
+
     getNumSteps = () => {
         return this.match.length;
     }

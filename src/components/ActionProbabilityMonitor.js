@@ -29,15 +29,10 @@ export const ActionProbabilityMonitor = ({evaluation, action}) => {
                 data={buildChartData(evaluation, action)}
                 options={{
                     title: 'Action Probability',
-                    chartArea: {width: '50%'},
                     colors: ['#373840', '#f54a2c', '#344bf7'],
                     hAxis: {
-                        title: 'Probability',
                         minValue: 0,
                         maxValue: 1,
-                    },
-                    vAxis: {
-                        title: 'Action',
                     },
                 }}
             />
